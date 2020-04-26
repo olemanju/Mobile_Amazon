@@ -57,7 +57,7 @@ public class BaseTestObject {
 
 	Properties configProp = new Properties();
 	String OS;
-	VedioRecording test = new VedioRecording();
+	VideoRecording test = new VideoRecording();
 	public static String propertyFilePath = System.getProperty("user.dir")
 			+ "\\src\\test\\resources\\testdata\\data.properties";
 

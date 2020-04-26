@@ -23,7 +23,7 @@ import org.monte.media.Format;
 import org.monte.media.FormatKeys.MediaType;
 import org.monte.media.math.Rational;
 
-public class VedioRecording {
+public class VideoRecording {
 	private ScreenRecorder screenRecorder;
 
 	public void startRecording() throws Exception {
