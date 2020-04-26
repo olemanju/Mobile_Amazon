@@ -25,11 +25,11 @@ public class Homepage extends BasePageObject {
 	// Page Object Model- Stored all the page related objects
 	boolean flag = false;
 	/* Web elements */
-	By lbl_myaccount_css = By.cssSelector("span.stack span");
+	
 
 	// Verify element exists -> id =
 	// com.amazon.mShop.android.shopping:id/signin_to_yourAccount
-	By bySkipLoginButton = By.id("com.amazon.mShop.android.shopping:id/skip_sign_in_button");
+	 By bySkipLoginButton = By.id("com.amazon.mShop.android.shopping:id/skip_sign_in_button");
 	By byAmazonLogo = By.id("com.amazon.mShop.android.shopping:id/signin_to_yourAccount");
 
 	String pagetitle = null;
