@@ -1,0 +1,30 @@
+24 Apr 2020 16:07:30  INFO logger - --------------------------------------
+24 Apr 2020 16:07:30  INFO logger - Shutting down driver
+24 Apr 2020 16:09:17  INFO logger - --------------------------------------
+24 Apr 2020 16:09:17  INFO logger - Shutting down driver
+24 Apr 2020 16:11:32  INFO logger - --------------------------------------
+24 Apr 2020 16:57:18  INFO logger - --------------------------------------
+24 Apr 2020 16:58:54  INFO logger - --------------------------------------
+24 Apr 2020 17:02:48  INFO logger - --------------------------------------
+24 Apr 2020 17:04:26  INFO logger - --------------------------------------
+24 Apr 2020 17:08:14  INFO logger - --------------------------------------
+24 Apr 2020 17:10:39  INFO logger - --------------------------------------
+25 Apr 2020 13:51:44  INFO logger - --------------------------------------
+25 Apr 2020 13:53:04  INFO logger - --------------------------------------
+25 Apr 2020 13:54:17  INFO logger - --------------------------------------
+25 Apr 2020 14:15:36  INFO logger - --------------------------------------
+25 Apr 2020 14:17:24  INFO logger - --------------------------------------
+25 Apr 2020 14:23:44  INFO logger - --------------------------------------
+25 Apr 2020 14:25:57  INFO logger - --------------------------------------
+25 Apr 2020 14:27:23  INFO logger - --------------------------------------
+25 Apr 2020 14:28:23  INFO logger - --------------------------------------
+25 Apr 2020 14:46:00  INFO logger - --------------------------------------
+25 Apr 2020 14:46:34  INFO logger - Android driver created
+25 Apr 2020 17:55:33  INFO logger - ClassName :com.wip.pages.LoginPage
+25 Apr 2020 17:55:33  INFO logger - MethodName :findElementByText
+25 Apr 2020 17:55:33  INFO logger - Exception :Element not foundProceed to checkout
+25 Apr 2020 17:55:33  INFO logger - -----------------------------------------------------------------------------------
+25 Apr 2020 18:16:02  INFO logger - ClassName :com.wip.pages.LoginPage
+25 Apr 2020 18:16:02  INFO logger - MethodName :findElementByText
+25 Apr 2020 18:16:02  INFO logger - Exception :Element not foundProceed to checkout
+25 Apr 2020 18:16:02  INFO logger - -----------------------------------------------------------------------------------
