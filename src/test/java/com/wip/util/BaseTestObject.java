@@ -43,45 +43,43 @@ import com.relevantcodes.extentreports.LogStatus;
 import com.wip.ExtentReports.ExtentTestManager;
 
 /**
- * contains all the methods to create a new session and destroy the 
- * session after the test(s) execution is over. Each test extends
- *  this class.
+ * contains all the methods to create a new session and destroy the session
+ * after the test(s) execution is over. Each test extends this class.
  */
-public class BaseTestObject 
-{
+public class BaseTestObject {
 	public static ExtentTest extest;
 	public static ExtentReports report;
 
-	public WebDriver driver;
-	
+	public AndroidDriver driver;
+
 	public static AppiumDriverLocalService service;
-	Properties configFile ;
-	
+	Properties configFile;
+
 	Properties configProp = new Properties();
 	String OS;
 	VedioRecording test = new VedioRecording();
 	public static String propertyFilePath = System.getProperty("user.dir")
 			+ "\\src\\test\\resources\\testdata\\data.properties";
-	
+
 	public static String lo4jpath = System.getProperty("user.dir")
 			+ "\\src\\test\\resources\\testdata\\log4j.properties";
 
 	public static String filePath = System.getProperty("user.dir") + "\\test-output\\screenshots\\screenshot";
 	FileInputStream fileInput = null;
 
-	//VedioRecording test = new VedioRecording();
+	// VedioRecording test = new VedioRecording();
 
 	public Properties ObjProperty = getPropertyContents();
-	
+
 	public String AndrioidPath = ObjProperty.getProperty("AndroidAppPath");
 	public String Nodepath = ObjProperty.getProperty("Nodepath");
 	public String AppiumPath = ObjProperty.getProperty("AppiumPath");
 
 	private static final Properties prop = new Properties();
 
-	public AndroidDriver<WebElement> getDriver() {
+	public AndroidDriver getDriver() {
 
-		return (AndroidDriver<WebElement>) driver;
+		return (AndroidDriver) driver;
 	}
 
 	private static void loadPropertiesFile() {
@@ -110,57 +108,47 @@ public class BaseTestObject
 	}
 
 	@BeforeSuite(alwaysRun = true)
-	  public void startAppiumServer() throws Exception
-	{
-	
-		  String AppPath = System.getProperty("user.dir")+"\\"+AndrioidPath;
-		  System.out.println(AppPath);
-	
-		 //AppiumDriverLocalService
-		 service = AppiumDriverLocalService
-					.buildService(new AppiumServiceBuilder()
-							.usingDriverExecutable(new File(Nodepath))
-							.withAppiumJS(
-									new File(
-											AppiumPath)));
-							//.withIPAddress("127.0.0.1").usingPort(4723));
-		// ExtentTestManager.getTest().log(LogStatus.PASS, "Appium Server Is Started");
-		 //Server will start
-		 service.start();
-		 System.out.println("Server started");
-		 //Video Recording will start
-		//	test.startRecording();
-		 
-		 //Mobile Capabilities 
-		 DesiredCapabilities dc= new DesiredCapabilities();
-			
-			
-			dc.setCapability("deviceName", "Moto G5 Plus");
-			dc.setCapability("platformName", "Android");
-			dc.setCapability("platformVersion", "8.1.0");
-			dc.setCapability("udid", "ZY22442929");
-			dc.setCapability("app", AppPath);
-			dc.setCapability("appPackage", "com.amazon.mShop.android.shopping");
-			dc.setCapability("appActivity", "com.amazon.mShop.splashscreen.StartupActivity");
-			
-			
-			driver= new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"),dc);
-       
+	public void startAppiumServer() throws Exception {
 
-        
-}
-	
+		String AppPath = System.getProperty("user.dir") + "\\" + AndrioidPath;
+		System.out.println(AppPath);
+
+		// AppiumDriverLocalService
+		service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
+				.usingDriverExecutable(new File(Nodepath)).withAppiumJS(new File(AppiumPath)));
+		// .withIPAddress("127.0.0.1").usingPort(4723));
+		// ExtentTestManager.getTest().log(LogStatus.PASS, "Appium Server Is Started");
+		// Server will start
+		service.start();
+		System.out.println("Server started");
+		// Video Recording will start
+		// test.startRecording();
+
+		// Mobile Capabilities
+		DesiredCapabilities dc = new DesiredCapabilities();
+
+		dc.setCapability("deviceName", "Moto G5 Plus");
+		dc.setCapability("platformName", "Android");
+		dc.setCapability("platformVersion", "8.1.0");
+		dc.setCapability("udid", "ZY22442929");
+		dc.setCapability("app", AppPath);
+		dc.setCapability("appPackage", "com.amazon.mShop.android.shopping");
+		dc.setCapability("appActivity", "com.amazon.mShop.splashscreen.StartupActivity");
+
+		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), dc);
+
+	}
+
 	@AfterSuite(alwaysRun = true)
-	public void stopAppiumServer() throws Exception{
-	
-	//To Stop the Recording
+	public void stopAppiumServer() throws Exception {
+
+		// To Stop the Recording
 		// test.stopRecording();
-		//It will stip the Server
+		// It will stip the Server
 		service.stop();
-		
+
 		System.out.println("Teardown");
-	
-       
+
 	}
 
 }

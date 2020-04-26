@@ -35,7 +35,6 @@ public class LoginPageTest extends BaseTestObject {
 	// Creating the objects for the Classes
 	Homepage objhomepage;
 	LoginPage objloginpage;
-	
 
 	// Extent manager Obj
 	ExtentTestManager extentlog;
@@ -49,36 +48,33 @@ public class LoginPageTest extends BaseTestObject {
 	 * 
 	 * @throws Exception
 	 */
-	
 
 	@Test(priority = 0, enabled = true, description = "User is able to Search for the Product and Add to The Cart")
-		public void verifyUserIsAbleToSearchAndToTheCart(Method method) throws Exception {
+	public void verifyUserIsAbleToSearchAndToTheCart(Method method) throws Exception {
 		try {
-			
+
 			ExtentTestManager.startTest(method.getName(),
 					"User is able to Search for the Product and Add to The Cart.");
-			
-				
-				objhomepage = new Homepage(driver);
-				//String title= objhomepage.verifyHomePageTitle();
-				objloginpage=objhomepage.clickOnSkipSignIn();
-				objloginpage.isSearchBoxDisplayed();
-				objloginpage.enterSearchElementInTheBox(strSearchText);
-				objloginpage.clickDontChangeButton();
-				objloginpage.enterSearchableItemInTheBox(strSearchText);
-				objloginpage.clickOnSearchByItem(searchtext);
-				objloginpage.getTheNameOftheProduct(searchtext);
-				objloginpage.getThePriceOftheProduct(price);
-				objloginpage.checkTheProductIsInStock(instock);
-				objloginpage.clickOnAddToCart();
-				objloginpage.clickOnProceeedToCheckOut(proceedtoCheckout);
-				ExtentTestManager.getTest().log(LogStatus.PASS, "user has logout successfully");
-			
+
+			objhomepage = new Homepage(driver);
+			// String title= objhomepage.verifyHomePageTitle();
+			objloginpage = objhomepage.clickOnSkipSignIn();
+			objloginpage.isSearchBoxDisplayed();
+			objloginpage.enterSearchElementInTheBox(strSearchText);
+			objloginpage.clickDontChangeButton();
+			objloginpage.enterSearchableItemInTheBox(strSearchText);
+			objloginpage.clickOnSearchByItem(searchtext);
+			objloginpage.getTheNameOftheProduct(searchtext);
+			objloginpage.getThePriceOftheProduct(price);
+			objloginpage.checkTheProductIsInStock(instock);
+			objloginpage.clickOnAddToCart();
+			objloginpage.clickOnProceeedToCheckOut(proceedtoCheckout);
+			ExtentTestManager.getTest().log(LogStatus.PASS, "user has logout successfully");
+
 		} catch (Exception e) {
 			throw new Exception("FAILED COMPELTE THE END TO FLOW " + e.getLocalizedMessage());
 		}
 
 	}
-	
 
 }
