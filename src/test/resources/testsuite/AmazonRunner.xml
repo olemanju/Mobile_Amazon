@@ -1,10 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Mobile Automation" >
-    
-<listeners>
+     <listeners>
         <listener class-name="com.wip.Listeners.TestListener"/>
         <listener class-name="com.wip.Listeners.AnnotationTransformer"/>
     </listeners>
+
 
         <test name="Smoke Test" preserve-order="true">
             

@@ -1,5 +1,8 @@
 package com.wip.pages;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -19,28 +22,28 @@ import com.wip.util.BasePageObject;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 
-public class LoginPage extends BasePageObject {
+public class ProductSearchPage extends BasePageObject {
 
-	public LoginPage(AndroidDriver driver) {
+	public ProductSearchPage(AndroidDriver driver) {
 		super(driver);
 	}
 
-	private final static Logger LOGGER = Logger.getLogger(LoginPage.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(ProductSearchPage.class.getName());
 
 	// Page Object Model- Stored all the page related objects
 	boolean flag = false;
 	/* Web elements */
 
-	// Click Search Icon on top left - id
-	// com.amazon.mShop.android.shopping:id/rs_search_src_text
-	By bySearchBox = By.id("com.amazon.mShop.android.shopping:id/rs_search_src_text");
-
-	// Click on no change address button
-	By defaultButton = By.id("com.amazon.mShop.android.shopping:id/left_button");
-
-	// Click on Add to cart
-	By addtocart = By
+	By txt_bySearchBox_id = MobileBy.id("com.amazon.mShop.android.shopping:id/rs_search_src_text");
+	By btn_defaultButton_id = MobileBy.id("com.amazon.mShop.android.shopping:id/left_button");
+	By txt_productname_xpath = MobileBy.xpath(
+			"//android.view.View[@index=0 and contains(@text,'Canon EOS 4000D DSLR Camera w/Canon EF-S 18-55mm F/3.5-5.6 III Zoom Lens')]");
+	By txt_Price_xpath = MobileBy.xpath("//android.widget.TextView[@index=1 and contains(@text,'349')]");
+	By txt_instock_xpath = MobileBy.xpath("//android.widget.TextView[@index=0 and contains(@text,'In Stock.')]");
+	By btn_list_Proceed_xpath = By.xpath("//android.widget.Button[@index=0]");
+	By btn_addtocart_xpath = MobileBy
 			.xpath("//android.widget.Button[contains(@resource-id,'add-to-cart-button') and @text='Add to Cart']");
 
 	/**
@@ -50,15 +53,8 @@ public class LoginPage extends BasePageObject {
 	 */
 	public boolean isSearchBoxDisplayed() throws Exception {
 		try {
-			waitForVisibility(bySearchBox);
-
-			flag = isElementPresent(bySearchBox);
-			if (flag) {
-				LOGGER.info("Search Box is displayed");
-			} else {
-				LOGGER.error("Search Box is displayed");
-			}
-
+			waitForVisibility(txt_bySearchBox_id);
+			flag = isElementPresent(txt_bySearchBox_id);
 		} catch (Exception e) {
 			throw new Exception("Failed to Search for SearchBox" + isSearchBoxDisplayed() + e.getLocalizedMessage());
 		}
@@ -69,18 +65,12 @@ public class LoginPage extends BasePageObject {
 
 		try {
 			if (isSearchBoxDisplayed() == true) {
-				waitForVisibility(bySearchBox);
-				clickMe(bySearchBox);
-				LOGGER.info("Click on Search box");
+				waitForVisibility(txt_bySearchBox_id);
+				clickButton(txt_bySearchBox_id);
 				// Wait for keyboard animations to popup
 				TimeUnit.SECONDS.sleep(1);
-				// Type Canon Camera - id
-				// com.amazon.mShop.android.shopping:id/rs_search_src_text
-				driver.findElement(bySearchBox).sendKeys(searchItem);
-				LOGGER.info("Entered text in the search box " + searchItem);
-				// Press Enter
+				findElement(txt_bySearchBox_id).sendKeys(searchItem);
 				pressEnter();
-				TimeUnit.SECONDS.sleep(2);
 				ExtentTestManager.getTest().log(LogStatus.PASS,
 						"Entered Search element and Search Item is " + searchItem);
 
@@ -94,17 +84,14 @@ public class LoginPage extends BasePageObject {
 
 	}
 
-	public void clickDontChangeButton() throws Exception {
+	public void clickOnDontChangeButton() throws Exception {
 		try {
 
-			waitForVisibility(defaultButton);
-			WebElement leftButton = driver.findElement(defaultButton);
-			if (leftButton.isDisplayed()) {
-				leftButton.click();
+			waitForVisibility(btn_defaultButton_id);
+			WebElement dontchange = driver.findElement(btn_defaultButton_id);
+			if (dontchange.isDisplayed()) {
+				dontchange.click();
 				LOGGER.info("Clicked on Don't chnage Button");
-				System.out.println("Clicked on Dont change  button");
-				TimeUnit.SECONDS.sleep(2);
-
 			}
 
 		} catch (Exception e) {
@@ -115,15 +102,11 @@ public class LoginPage extends BasePageObject {
 	public void enterSearchableItemInTheBox(String searchItem) throws Exception {
 		try {
 
-			waitForVisibility(bySearchBox);
-
-			clickMe(bySearchBox);
+			waitForVisibility(txt_bySearchBox_id);
+			clickButton(txt_bySearchBox_id);
 			// Wait for keyboard animations to popup
 			TimeUnit.SECONDS.sleep(1);
-
-			// Type Canon Camera - id
-			// com.amazon.mShop.android.shopping:id/rs_search_src_text
-			driver.findElement(bySearchBox).sendKeys(searchItem);
+			findElement(txt_bySearchBox_id).sendKeys(searchItem);
 			// Wait for keyboard animations to popup
 			TimeUnit.SECONDS.sleep(1);
 			LOGGER.info("Search Box is displayed and Entered text " + searchItem);
@@ -142,22 +125,17 @@ public class LoginPage extends BasePageObject {
 
 	public String getTheNameOftheProduct(String name) throws Exception {
 		try {
-			MobileElement el;
-			String Value = null;
 
+			String productName = null;
 			scrollTillVisible(name);
-			el = findElementByText(name);
-			Value = el.getText();
-			System.out.println(el.getText());
-			LOGGER.info("Name of the product is  " + Value);
-			ExtentTestManager.getTest().log(LogStatus.PASS, "Name o fthe Product is  " + Value);
-			if (Value.equalsIgnoreCase(AmazonConstants.PRODUCTNAME)) {
-				ExtentTestManager.getTest().log(LogStatus.PASS, "Product Name Assertion is Passed  " + Value);
+			productName = getText(txt_productname_xpath);
+			if (productName.equals(AmazonConstants.PRODUCTNAME)) {
+				ExtentTestManager.getTest().log(LogStatus.PASS, "Product Name Assertion is Passed  " + productName);
 			} else {
-				ExtentTestManager.getTest().log(LogStatus.FAIL, "Product Name Assertion is Failed  " + Value);
-			}
+				ExtentTestManager.getTest().log(LogStatus.FAIL, "Product Name Assertion is Failed  " + productName);
 
-			return Value;
+			}
+			return productName;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			throw new Exception("Failed to get the text of the product " + e.getLocalizedMessage());
@@ -167,23 +145,16 @@ public class LoginPage extends BasePageObject {
 
 	public String getThePriceOftheProduct(String price) throws Exception {
 		try {
-			MobileElement el;
-			String Value = null;
-
+			String price_name = null;
 			scrollTillVisible(price);
-			el = findElementByText(price);
-			Value = el.getText();
-			System.out.println(el.getText());
-			/*
-			 * System.out.println(Value); System.out.println(AmazonConstants.PRICE);
-			 */
-			LOGGER.info("Price  of the product is  " + Value);
-			ExtentTestManager.getTest().log(LogStatus.PASS, "Price  of the product is  " + Value);
 
-			if (Value.trim().equalsIgnoreCase(AmazonConstants.PRICE.trim())) {
-				ExtentTestManager.getTest().log(LogStatus.PASS, "Price Assertion is Passed  " + Value);
+			price_name = getText(txt_Price_xpath);
+			if (price_name.trim().equals(AmazonConstants.PRICE.trim())) {
+				ExtentTestManager.getTest().log(LogStatus.PASS, "Price Assertion is Passed  " + price_name);
 			} else {
-				ExtentTestManager.getTest().log(LogStatus.FAIL, "Price Assertion is Failed  " + Value);
+
+				ExtentTestManager.getTest().log(LogStatus.FAIL, "Price Assertion is Failed  " + price_name);
+				Assert.assertEquals(price_name, AmazonConstants.PRICE.trim(), "Values are Not Matching");
 			}
 			return price;
 		} catch (Exception e) {
@@ -193,16 +164,11 @@ public class LoginPage extends BasePageObject {
 	}
 
 	public String checkTheProductIsInStock(String instock) throws Exception {
+		String instck = null;
 		try {
-			MobileElement el;
-			String Value = null;
-
 			scrollTillVisible(instock);
-			el = findElementByText(instock);
-			Value = el.getText();
-			System.out.println(el.getText());
-			LOGGER.info("product is in Stock" + Value);
-			ExtentTestManager.getTest().log(LogStatus.PASS, "Check Item is instock or not and the value is " + Value);
+			instck = getText(txt_instock_xpath);
+
 			return instock;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -210,30 +176,10 @@ public class LoginPage extends BasePageObject {
 		}
 	}
 
-	public Boolean isAddtoCartIsDisplayed() {
-		try {
-
-			flag = waitForVisibility(addtocart);
-			LOGGER.info("Add to cart Element is displaye don the page  ");
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return flag;
-	}
-
-	public Boolean isAddedTocartTextdisplayed(String addedtoCart) {
-		findElementByText(addedtoCart);
-
-		return flag;
-	}
-
 	public void clickOnAddToCart() throws Exception {
 		try {
-			isAddtoCartIsDisplayed();
-			clickMe(addtocart);
-			TimeUnit.SECONDS.sleep(4);
-			LOGGER.info("Clicked on Add to The Cart Button ");
+			waitForVisibility(btn_addtocart_xpath);
+			clickButton(btn_addtocart_xpath);
 			ExtentTestManager.getTest().log(LogStatus.PASS, "Clicked on Add To Card Button");
 		} catch (Exception e) {
 			throw new Exception("Failed to Click on Add to Cart button " + e.getLocalizedMessage());
@@ -241,25 +187,19 @@ public class LoginPage extends BasePageObject {
 
 	}
 
-	public Boolean isClickToProceed(String proceedtocheckout) {
-
-		findElementByText(proceedtocheckout);
-
-		return flag;
-	}
-
 	public void clickOnProceeedToCheckOut(String proceedtocheckout) throws Exception {
 		try {
-			isClickToProceed(proceedtocheckout);
-			System.out.println("Is displayed");
-			TimeUnit.SECONDS.sleep(3);
-			MobileElement el;
-			el = findElementByText(proceedtocheckout);
-			el.click();
-			LOGGER.info("Clicked on Proceed to Check in Button ");
+			TimeUnit.SECONDS.sleep(4);
+			List<WebElement> ProceedButtons = driver.findElements(btn_list_Proceed_xpath);
+			for (WebElement btn : ProceedButtons) {
+				if (btn.getAttribute("text").contains("Proceed to checkout")) {
+					btn.click();
+					break;
+				}
+			}
 			ExtentTestManager.getTest().log(LogStatus.PASS, "Clicked on Proceed to Check in Button");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			throw new Exception("Not able to Click on Proceed to Check out Button" + e.getLocalizedMessage());
 		}
 	}

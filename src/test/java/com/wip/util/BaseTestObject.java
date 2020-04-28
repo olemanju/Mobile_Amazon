@@ -1,10 +1,15 @@
 package com.wip.util;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+//import utility.AppiumServer;
+//import utility.CommonUtils;
+import com.wip.util.AppiumServer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +19,8 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.PublicKey;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -21,8 +28,11 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tools.ant.util.SymbolicLinkUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -50,14 +60,13 @@ public class BaseTestObject {
 	public static ExtentTest extest;
 	public static ExtentReports report;
 
-	public AndroidDriver driver;
+	public static AppiumDriver<MobileElement> driver;
 
-	public static AppiumDriverLocalService service;
+	public static String loadPropertyFile = "Android_careapp.properties";
+
 	Properties configFile;
-
 	Properties configProp = new Properties();
-	String OS;
-	VideoRecording test = new VideoRecording();
+
 	public static String propertyFilePath = System.getProperty("user.dir")
 			+ "\\src\\test\\resources\\testdata\\data.properties";
 
@@ -67,13 +76,7 @@ public class BaseTestObject {
 	public static String filePath = System.getProperty("user.dir") + "\\test-output\\screenshots\\screenshot";
 	FileInputStream fileInput = null;
 
-	// VedioRecording test = new VedioRecording();
-
 	public Properties ObjProperty = getPropertyContents();
-
-	public String AndrioidPath = ObjProperty.getProperty("AndroidAppPath");
-	public String Nodepath = ObjProperty.getProperty("Nodepath");
-	public String AppiumPath = ObjProperty.getProperty("AppiumPath");
 
 	private static final Properties prop = new Properties();
 
@@ -110,45 +113,51 @@ public class BaseTestObject {
 	@BeforeSuite(alwaysRun = true)
 	public void startAppiumServer() throws Exception {
 
-		String AppPath = System.getProperty("user.dir") + "\\" + AndrioidPath;
-		System.out.println(AppPath);
+		if (driver == null) {
+			// AppiumServer.start();
 
-		// AppiumDriverLocalService
-		service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-				.usingDriverExecutable(new File(Nodepath)).withAppiumJS(new File(AppiumPath)));
-		// .withIPAddress("127.0.0.1").usingPort(4723));
-		// ExtentTestManager.getTest().log(LogStatus.PASS, "Appium Server Is Started");
-		// Server will start
-		service.start();
-		System.out.println("Server started");
-		// Video Recording will start
-		// test.startRecording();
+			if (loadPropertyFile.startsWith("IOS")) {
+				// IOS Piece of code
+			} else if (loadPropertyFile.startsWith("Android")) {
 
-		// Mobile Capabilities
-		DesiredCapabilities dc = new DesiredCapabilities();
+				AppiumServer.start();
+				CommonUtils.loadAndroidConfigProp(loadPropertyFile);
+				CommonUtils.setAndroidCapabilities();
+				driver = CommonUtils.getAndroidDriver();
+			}
 
-		dc.setCapability("deviceName", "Moto G5 Plus");
-		dc.setCapability("platformName", "Android");
-		dc.setCapability("platformVersion", "8.1.0");
-		dc.setCapability("udid", "ZY22442929");
-		dc.setCapability("app", AppPath);
-		dc.setCapability("appPackage", "com.amazon.mShop.android.shopping");
-		dc.setCapability("appActivity", "com.amazon.mShop.splashscreen.StartupActivity");
+		}
 
-		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), dc);
-
+	
 	}
 
 	@AfterSuite(alwaysRun = true)
 	public void stopAppiumServer() throws Exception {
 
-		// To Stop the Recording
-		// test.stopRecording();
+		//screenShot(driver);
 		// It will stip the Server
-		service.stop();
-
+		driver.quit();
 		System.out.println("Teardown");
+		 AppiumServer.stop();
 
+	}
+
+	public static void screenShot(WebDriver driver) throws IOException, InterruptedException {
+
+		TakesScreenshot screenshot = (TakesScreenshot) driver;
+		File scr = screenshot.getScreenshotAs(OutputType.FILE);
+		File dest = new File(filePath + timestamp() + ".png");
+
+		try {
+			FileUtils.copyFile(scr, dest);
+			Thread.sleep(3000);
+		} catch (IOException e) {
+			System.out.println("Capture Failed " + e.getMessage());
+		}
+	}
+
+	public static String timestamp() {
+		return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
 	}
 
 }

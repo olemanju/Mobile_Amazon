@@ -2,16 +2,16 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Mobile Automation" duration-ms="63213" started-at="2020-04-26T08:41:17Z" finished-at="2020-04-26T08:42:20Z">
+  <suite name="Mobile Automation" duration-ms="53027" started-at="2020-04-28T09:10:05Z" finished-at="2020-04-28T09:10:58Z">
     <groups>
     </groups>
-    <test name="Smoke Test" duration-ms="63213" started-at="2020-04-26T08:41:17Z" finished-at="2020-04-26T08:42:20Z">
+    <test name="Smoke Test" duration-ms="53027" started-at="2020-04-28T09:10:05Z" finished-at="2020-04-28T09:10:58Z">
       <class name="com.wip.test.LoginPageTest">
-        <test-method status="PASS" signature="startAppiumServer()[pri:0, instance:com.wip.test.LoginPageTest@527740a2]" name="startAppiumServer" is-config="true" duration-ms="25701" started-at="2020-04-26T14:10:51Z" finished-at="2020-04-26T14:11:17Z">
+        <test-method status="PASS" signature="startAppiumServer()[pri:0, instance:com.wip.test.LoginPageTest@71423665]" name="startAppiumServer" is-config="true" duration-ms="27319" started-at="2020-04-28T14:39:37Z" finished-at="2020-04-28T14:40:05Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- startAppiumServer -->
-        <test-method status="PASS" signature="verifyUserIsAbleToSearchAndToTheCart(java.lang.reflect.Method)[pri:0, instance:com.wip.test.LoginPageTest@527740a2]" name="verifyUserIsAbleToSearchAndToTheCart" duration-ms="63189" started-at="2020-04-26T14:11:17Z" description="User is able to Search for the Product and Add to The Cart" finished-at="2020-04-26T14:12:20Z">
+        <test-method status="PASS" signature="verifyUserIsAbleToSearchAndToTheCart(java.lang.reflect.Method)[pri:0, instance:com.wip.test.LoginPageTest@71423665]" name="verifyUserIsAbleToSearchAndToTheCart" duration-ms="52996" started-at="2020-04-28T14:40:05Z" description="User is able to Search for the Product and Add to The Cart" finished-at="2020-04-28T14:40:58Z">
           <params>
             <param index="0">
               <value>
@@ -22,7 +22,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyUserIsAbleToSearchAndToTheCart -->
-        <test-method status="PASS" signature="stopAppiumServer()[pri:0, instance:com.wip.test.LoginPageTest@527740a2]" name="stopAppiumServer" is-config="true" duration-ms="0" started-at="2020-04-26T14:12:20Z" finished-at="2020-04-26T14:12:20Z">
+        <test-method status="PASS" signature="stopAppiumServer()[pri:0, instance:com.wip.test.LoginPageTest@71423665]" name="stopAppiumServer" is-config="true" duration-ms="500" started-at="2020-04-28T14:40:58Z" finished-at="2020-04-28T14:40:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- stopAppiumServer -->

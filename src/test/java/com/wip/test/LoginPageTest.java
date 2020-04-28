@@ -14,8 +14,8 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 import com.wip.common.AmazonConstants;
 import com.wip.pages.Homepage;
-import com.wip.pages.LoginPage;
 
+import com.wip.pages.ProductSearchPage;
 import com.wip.util.BaseTestObject;
 
 import com.wip.ExtentReports.ExtentTestManager;
@@ -34,7 +34,7 @@ public class LoginPageTest extends BaseTestObject {
 
 	// Creating the objects for the Classes
 	Homepage objhomepage;
-	LoginPage objloginpage;
+	ProductSearchPage objprdctserchpage;
 
 	// Extent manager Obj
 	ExtentTestManager extentlog;
@@ -55,20 +55,18 @@ public class LoginPageTest extends BaseTestObject {
 
 			ExtentTestManager.startTest(method.getName(),
 					"User is able to Search for the Product and Add to The Cart.");
-
 			objhomepage = new Homepage(driver);
-			// String title= objhomepage.verifyHomePageTitle();
-			objloginpage = objhomepage.clickOnSkipSignIn();
-			objloginpage.isSearchBoxDisplayed();
-			objloginpage.enterSearchElementInTheBox(strSearchText);
-			objloginpage.clickDontChangeButton();
-			objloginpage.enterSearchableItemInTheBox(strSearchText);
-			objloginpage.clickOnSearchByItem(searchtext);
-			objloginpage.getTheNameOftheProduct(searchtext);
-			objloginpage.getThePriceOftheProduct(price);
-			objloginpage.checkTheProductIsInStock(instock);
-			objloginpage.clickOnAddToCart();
-			objloginpage.clickOnProceeedToCheckOut(proceedtoCheckout);
+			objprdctserchpage = objhomepage.clickOnSkipSignIn();
+			objprdctserchpage.isSearchBoxDisplayed();
+			objprdctserchpage.enterSearchElementInTheBox(strSearchText);
+			objprdctserchpage.clickOnDontChangeButton();
+			objprdctserchpage.enterSearchableItemInTheBox(strSearchText);
+			objprdctserchpage.clickOnSearchByItem(searchtext);
+			objprdctserchpage.getTheNameOftheProduct(searchtext);
+			objprdctserchpage.getThePriceOftheProduct(price);
+			objprdctserchpage.checkTheProductIsInStock(instock);
+			objprdctserchpage.clickOnAddToCart();
+			objprdctserchpage.clickOnProceeedToCheckOut(proceedtoCheckout);
 			ExtentTestManager.getTest().log(LogStatus.PASS, "user has logout successfully");
 
 		} catch (Exception e) {

@@ -2,13 +2,26 @@ package com.wip.Listeners;
 
 import com.relevantcodes.extentreports.LogStatus;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import org.testng.internal.Utils;
+
 import com.wip.util.BaseTestObject;
+import java.lang.reflect.Field;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+
 import com.wip.ExtentReports.ExtentManager;
 import com.wip.ExtentReports.ExtentTestManager;
 
@@ -40,16 +53,17 @@ public class TestListener extends BaseTestObject implements ITestListener {
 		ExtentTestManager.getTest().log(LogStatus.PASS, "Test passed");
 	}
 
-	public void onTestFailure(ITestResult iTestResult) {
+	public void onTestFailure(ITestResult iTestResult) 
+	{
 		System.out.println("I am in onTestFailure method " + getTestMethodName(iTestResult) + " failed");
 
 		// Get driver from BaseTest and assign to local webDriver variable.
 		Object testClass = iTestResult.getInstance();
-		WebDriver webDriver = ((BaseTestObject) testClass).getDriver();
-
+		AndroidDriver<MobileElement> driver = ((BaseTestObject) testClass).getDriver();
 		// Take base64Screenshot screenshot.
 		String base64Screenshot = "data:image/png;base64,"
-				+ ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BASE64);
+				+ ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+		
 
 		// ExtentReports log and screenshot operations for failed tests.
 		ExtentTestManager.getTest().log(LogStatus.FAIL, "Test Failed",

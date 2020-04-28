@@ -60,6 +60,16 @@ public class BasePageObject {
 		Boolean isPresent = driver.findElements(targetElement).size() > 0;
 		return isPresent;
 	}
+	
+	public boolean isElementPresents(By by) {
+		
+        try {
+            boolean flag=driver.findElement(by).isDisplayed();
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
 
 	/**
 	 * method to hide keyboard
@@ -143,23 +153,20 @@ public class BasePageObject {
 		}
 	}
 
-	/**
-	 * method to find an element
-	 *
-	 * @param locator element to be found
-	 * @return WebElement if found else throws NoSuchElementException
-	 */
-	public MobileElement findElementByText(String text) {
+/*	
+	public WebElement findElementByXpath() {
 		try {
 			MobileElement element = ((AndroidDriver<MobileElement>) driver)
 					.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + text + "\")");
+			String s="//android.view.View[contains(@text,'Canon EOS 4000D DSLR Camera w/Canon EF-S 18-55mm F/3.5-5.6 III Zoom Lens']";
+			//WebElement element= driver.findElement(By.xpath("//android.view.View[contains(@text,'Canon EOS 4000D DSLR Camera w/Canon EF-S 18-55mm F/3.5-5.6 III Zoom Lens']))
 
 			return element;
 		} catch (NoSuchElementException e) {
-			Log.logError(this.getClass().getName(), "findElementByText", "Element not found" + text);
+			Log.logError(this.getClass().getName(), "findElementByText", "Element not found" );
 			throw e;
 		}
-	}
+	}*/
 
 	/**
 	 * method to find all the elements of specific locator
@@ -365,11 +372,14 @@ public class BasePageObject {
 		js.executeScript("mobile: swipe", swipeObject);
 	}
 
-	static String UiScrollable(String uiSelector) {
+	protected static String UiScrollable(String uiSelector) {
 		return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(" + uiSelector
 				+ ".instance(0));";
 
 	}
+	
+	
+	
 
 	/**
 	 * method to open notifications on Android
@@ -413,7 +423,7 @@ public class BasePageObject {
 	 * @param webelemnt - element to be clicked
 	 */
 
-	public void clickMe(By element) {
+	public void clickButton(By element) {
 		waitForVisibility(element);
 		driver.findElement(element).click();
 	}
@@ -438,17 +448,12 @@ public class BasePageObject {
 	 * @throws InterruptedException
 	 */
 	public void scrollTillVisibleAndClick(String text) throws InterruptedException {
-
-		try {
+		
 			WebElement element = driver.findElement(MobileBy.AndroidUIAutomator(
 					"new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""
 							+ text + "\").instance(0))"));
-			TimeUnit.SECONDS.sleep(2);
 			element.click();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**
@@ -488,5 +493,11 @@ public class BasePageObject {
 			new TouchAction((AppiumDriver) driver).press(PointOption.point(x, start)).moveTo(PointOption.point(x, end))
 					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(durationForSwipe))).release().perform();
 		}
+	}
+	
+	public  String getText(By theElement) {
+		waitForVisibility(theElement);
+		WebElement element= driver.findElement(theElement);
+		return element.getText();
 	}
 }
