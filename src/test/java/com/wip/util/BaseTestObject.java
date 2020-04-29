@@ -62,7 +62,7 @@ public class BaseTestObject {
 
 	public static AppiumDriver<MobileElement> driver;
 
-	public static String loadPropertyFile = "Android_careapp.properties";
+	public static String loadPropertyFile = "android_appium_config.properties";
 
 	Properties configFile;
 	Properties configProp = new Properties();
@@ -114,31 +114,25 @@ public class BaseTestObject {
 	public void startAppiumServer() throws Exception {
 
 		if (driver == null) {
-			// AppiumServer.start();
-
+			System.out.println("Hello");
 			if (loadPropertyFile.startsWith("IOS")) {
 				// IOS Piece of code
-			} else if (loadPropertyFile.startsWith("Android")) {
-
-				AppiumServer.start();
+			} else if (loadPropertyFile.startsWith("android")) {
+				
 				CommonUtils.loadAndroidConfigProp(loadPropertyFile);
+				AppiumServer.start();
 				CommonUtils.setAndroidCapabilities();
 				driver = CommonUtils.getAndroidDriver();
 			}
-
 		}
-
-	
 	}
 
 	@AfterSuite(alwaysRun = true)
-	public void stopAppiumServer() throws Exception {
-
-		//screenShot(driver);
-		// It will stip the Server
+	public void stopAppiumServer() throws Exception {	
+		// It will stop the Server
 		driver.quit();
 		System.out.println("Teardown");
-		 AppiumServer.stop();
+		AppiumServer.stop();
 
 	}
 
@@ -155,7 +149,6 @@ public class BaseTestObject {
 			System.out.println("Capture Failed " + e.getMessage());
 		}
 	}
-
 	public static String timestamp() {
 		return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
 	}

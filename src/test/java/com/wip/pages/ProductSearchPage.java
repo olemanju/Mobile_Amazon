@@ -15,7 +15,6 @@ import org.testng.Assert;
 
 import com.relevantcodes.extentreports.LogStatus;
 import com.wip.ExtentReports.ExtentTestManager;
-import com.wip.common.AmazonConstants;
 
 import com.wip.util.BasePageObject;
 
@@ -88,14 +87,13 @@ public class ProductSearchPage extends BasePageObject {
 		try {
 
 			waitForVisibility(btn_defaultButton_id);
-			WebElement dontchange = driver.findElement(btn_defaultButton_id);
-			if (dontchange.isDisplayed()) {
+			WebElement dontchange= findElement(btn_defaultButton_id);
+				if (dontchange.isDisplayed()) {
 				dontchange.click();
-				LOGGER.info("Clicked on Don't chnage Button");
 			}
 
 		} catch (Exception e) {
-			throw new Exception("Failed to Click on the Default address Button" + e.getLocalizedMessage());
+			throw new Exception("Failed to Click on the Don't change Button" + e.getLocalizedMessage());
 		}
 	}
 
@@ -119,7 +117,7 @@ public class ProductSearchPage extends BasePageObject {
 
 	public void clickOnSearchByItem(String text) throws InterruptedException {
 		scrollTillVisibleAndClick(text);
-		LOGGER.info("Scrolled the page till the elemnt is visible on the page " + text);
+		LOGGER.info("Scrolled the page till the element is visible on the page " + text);
 
 	}
 
@@ -129,12 +127,6 @@ public class ProductSearchPage extends BasePageObject {
 			String productName = null;
 			scrollTillVisible(name);
 			productName = getText(txt_productname_xpath);
-			if (productName.equals(AmazonConstants.PRODUCTNAME)) {
-				ExtentTestManager.getTest().log(LogStatus.PASS, "Product Name Assertion is Passed  " + productName);
-			} else {
-				ExtentTestManager.getTest().log(LogStatus.FAIL, "Product Name Assertion is Failed  " + productName);
-
-			}
 			return productName;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -147,15 +139,7 @@ public class ProductSearchPage extends BasePageObject {
 		try {
 			String price_name = null;
 			scrollTillVisible(price);
-
 			price_name = getText(txt_Price_xpath);
-			if (price_name.trim().equals(AmazonConstants.PRICE.trim())) {
-				ExtentTestManager.getTest().log(LogStatus.PASS, "Price Assertion is Passed  " + price_name);
-			} else {
-
-				ExtentTestManager.getTest().log(LogStatus.FAIL, "Price Assertion is Failed  " + price_name);
-				Assert.assertEquals(price_name, AmazonConstants.PRICE.trim(), "Values are Not Matching");
-			}
 			return price;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -190,7 +174,7 @@ public class ProductSearchPage extends BasePageObject {
 	public void clickOnProceeedToCheckOut(String proceedtocheckout) throws Exception {
 		try {
 			TimeUnit.SECONDS.sleep(4);
-			List<WebElement> ProceedButtons = driver.findElements(btn_list_Proceed_xpath);
+			List<WebElement> ProceedButtons = findElements(btn_list_Proceed_xpath);
 			for (WebElement btn : ProceedButtons) {
 				if (btn.getAttribute("text").contains("Proceed to checkout")) {
 					btn.click();

@@ -18,6 +18,7 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -60,7 +61,9 @@ public class BasePageObject {
 		Boolean isPresent = driver.findElements(targetElement).size() > 0;
 		return isPresent;
 	}
-	
+	/**
+	 * method to element is displayed on the page
+	 */
 	public boolean isElementPresents(By by) {
 		
         try {
@@ -153,20 +156,7 @@ public class BasePageObject {
 		}
 	}
 
-/*	
-	public WebElement findElementByXpath() {
-		try {
-			MobileElement element = ((AndroidDriver<MobileElement>) driver)
-					.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + text + "\")");
-			String s="//android.view.View[contains(@text,'Canon EOS 4000D DSLR Camera w/Canon EF-S 18-55mm F/3.5-5.6 III Zoom Lens']";
-			//WebElement element= driver.findElement(By.xpath("//android.view.View[contains(@text,'Canon EOS 4000D DSLR Camera w/Canon EF-S 18-55mm F/3.5-5.6 III Zoom Lens']))
 
-			return element;
-		} catch (NoSuchElementException e) {
-			Log.logError(this.getClass().getName(), "findElementByText", "Element not found" );
-			throw e;
-		}
-	}*/
 
 	/**
 	 * method to find all the elements of specific locator
@@ -494,10 +484,19 @@ public class BasePageObject {
 					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(durationForSwipe))).release().perform();
 		}
 	}
-	
+	/**
+	 * method to get the Text of the element
+	 */
 	public  String getText(By theElement) {
 		waitForVisibility(theElement);
 		WebElement element= driver.findElement(theElement);
 		return element.getText();
+	}
+	/**
+	 * method to compare two Strings
+	 */
+	public  void compareTwoStrings(String Actual, String Expected, String Message) 
+	{
+		Assert.assertEquals(Actual, Expected, Message);
 	}
 }

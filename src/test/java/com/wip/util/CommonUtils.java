@@ -31,6 +31,10 @@ public class CommonUtils {
 	public static String AUTOMATION_INSTRUMENTATION;
 	public static String APPIUM_PORT;
 	public static String APP_NAME;
+	public static String NODEPATH;
+	public static String APPIUMPATH;
+
+	
 
 	private static DesiredCapabilities capabilities = new DesiredCapabilities();
 	private static URL serverUrl;
@@ -41,7 +45,9 @@ public class CommonUtils {
 				System.getProperty("user.dir") + "/src/test/resources/testdata/" + propertyFileName);
 
 		prop.load(fis);
-
+		
+		NODEPATH = prop.getProperty("NODEPATH");
+		APPIUMPATH=prop.getProperty("APPIUMPATH");
 		EXPLICIT_WAIT_TIME = Integer.parseInt(prop.getProperty("explicit.wait"));
 		IMPLICIT_WAIT_TIME = Integer.parseInt(prop.getProperty("implicit.wait"));
 		BASE_PKG = prop.getProperty("base.pkg");
@@ -53,7 +59,7 @@ public class CommonUtils {
 		PLATFORM_NAME = prop.getProperty("platform.name");
 		PLATFORM_VERSION = prop.getProperty("platform.version");
 		APP_NAME = prop.getProperty("application.path");
-
+		
 	}
 
 	public static void setAndroidCapabilities() {

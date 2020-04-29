@@ -13,7 +13,6 @@ import org.testng.Reporter;
 
 import com.relevantcodes.extentreports.LogStatus;
 import com.wip.ExtentReports.ExtentTestManager;
-import com.wip.common.AmazonConstants;
 import com.wip.util.BasePageObject;
 
 import io.appium.java_client.AppiumDriver;

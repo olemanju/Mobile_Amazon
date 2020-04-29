@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
-import com.wip.common.AmazonConstants;
 import com.wip.pages.Homepage;
 
 import com.wip.pages.ProductSearchPage;
@@ -31,7 +30,10 @@ public class LoginPageTest extends BaseTestObject {
 	public String instock = ObjProperty.getProperty("instock");
 	public String AddedToCart = ObjProperty.getProperty("AddedToCart");
 	public String proceedtoCheckout = ObjProperty.getProperty("proceedtoCheckout");
+	public String expected_productName = ObjProperty.getProperty("EXPECTED_PRODUCTNAME");
+	public String expected_priceoftheProduct = ObjProperty.getProperty("Expected_Price");
 
+	
 	// Creating the objects for the Classes
 	Homepage objhomepage;
 	ProductSearchPage objprdctserchpage;
@@ -41,7 +43,8 @@ public class LoginPageTest extends BaseTestObject {
 
 	boolean flag = false;
 
-	String home_page_title = null;
+	String ProductName_Actual = null;
+	String PriceOftheProduct_Acutal=null;
 
 	/**
 	 * @author Manjunath Below Test case coveres End to end flow Testcase
@@ -62,8 +65,12 @@ public class LoginPageTest extends BaseTestObject {
 			objprdctserchpage.clickOnDontChangeButton();
 			objprdctserchpage.enterSearchableItemInTheBox(strSearchText);
 			objprdctserchpage.clickOnSearchByItem(searchtext);
-			objprdctserchpage.getTheNameOftheProduct(searchtext);
-			objprdctserchpage.getThePriceOftheProduct(price);
+			ProductName_Actual=objprdctserchpage.getTheNameOftheProduct(searchtext);
+			System.out.println(ProductName_Actual);
+			objprdctserchpage.compareTwoStrings(ProductName_Actual, expected_productName, "Product Name is Not matching");
+			PriceOftheProduct_Acutal=objprdctserchpage.getThePriceOftheProduct(price);
+			System.out.println(PriceOftheProduct_Acutal);
+			objprdctserchpage.compareTwoStrings(PriceOftheProduct_Acutal, expected_priceoftheProduct, "Product Price is Not matching");
 			objprdctserchpage.checkTheProductIsInStock(instock);
 			objprdctserchpage.clickOnAddToCart();
 			objprdctserchpage.clickOnProceeedToCheckOut(proceedtoCheckout);
